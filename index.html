@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Prestige - Fine Dining Restaurant</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#F3E5AB',
+                            500: '#D4AF37',
+                            600: '#AA7C11',
+                        },
+                        dark: {
+                            900: '#0B0F19',
+                            800: '#0F172A',
+                            700: '#1E293B',
+                            600: '#334155'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"Playfair Display"', 'serif'],
+                        sans: ['Prompt', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .page-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-slate-200 font-sans min-h-screen flex flex-col justify-between selection:bg-gold-500 selection:text-dark-900">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 bg-dark-900/90 backdrop-blur-md border-b border-gold-500/20 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 cursor-pointer" onclick="navigateTo('home')">
+                    <span class="font-heading text-2xl md:text-3xl text-gold-500 font-bold tracking-wider">LE PRESTIGE</span>
+                    <span class="block text-[10px] tracking-[0.3em] text-gray-400 uppercase text-center">Haute Cuisine</span>
+                </div>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex space-x-8">
+                    <button onclick="navigateTo('home')" id="nav-home" class="nav-btn text-gold-500 hover:text-gold-400 font-medium tracking-wide transition-colors duration-200">หน้าแรก</button>
+                    <button onclick="navigateTo('about')" id="nav-about" class="nav-btn text-gray-300 hover:text-gold-500 font-medium tracking-wide transition-colors duration-200">เกี่ยวกับเรา</button>
+                    <button onclick="navigateTo('menu')" id="nav-menu" class="nav-btn text-gray-300 hover:text-gold-500 font-medium tracking-wide transition-colors duration-200">เมนูอาหาร</button>
+                    <button onclick="navigateTo('reservation')" id="nav-reservation" class="nav-btn text-gray-300 hover:text-gold-500 font-medium tracking-wide transition-colors duration-200">สำรองโต๊ะ</button>
+                    <button onclick="navigateTo('contact')" id="nav-contact" class="nav-btn text-gray-300 hover:text-gold-500 font-medium tracking-wide transition-colors duration-200">ติดต่อเรา</button>
+                </nav>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <button onclick="navigateTo('reservation')" class="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-dark-900 font-semibold px-5 py-2.5 rounded-full shadow-md hover:shadow-gold-500/20 transition-all duration-300">
+                        <i class="fa-regular fa-calendar-check mr-2"></i>จองโต๊ะอาหาร
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-gold-500 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-b border-gold-500/20 px-4 pt-2 pb-6 space-y-3">
+            <button onclick="navigateTo('home'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gold-500 hover:bg-dark-700">หน้าแรก</button>
+            <button onclick="navigateTo('about'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-dark-700 hover:text-gold-500">เกี่ยวกับเรา</button>
+            <button onclick="navigateTo('menu'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-dark-700 hover:text-gold-500">เมนูอาหาร</button>
+            <button onclick="navigateTo('reservation'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-dark-700 hover:text-gold-500">สำรองโต๊ะ</button>
+            <button onclick="navigateTo('contact'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-dark-700 hover:text-gold-500">ติดต่อเรา</button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow">
+        <!-- 1. PAGE: HOME -->
+        <section id="page-home" class="page-section active">
+            <!-- Hero Banner -->
+            <div class="relative bg-dark-800 py-24 md:py-36 border-b border-dark-700 overflow-hidden">
+                <div class="absolute inset-0 z-0 opacity-25 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80');"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-dark-900/80"></div>
+                
+                <div class="relative z-10 max-w-5xl mx-auto px-4 text-center">
+                    <span class="text-gold-500 tracking-widest text-sm uppercase font-semibold mb-3 block">สัมผัสประสบการณ์รสเลิศระดับพรีเมียม</span>
+                    <h1 class="text-4xl sm:text-6xl font-heading text-white font-bold leading-tight mb-6">
+                        สุนทรียศาสตร์แห่งรสชาติ <br><span class="text-gold-500 italic font-normal">และบรรยากาศอันหรูหรา</span>
+                    </h1>
+                    <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
+                        สัมผัสเมนูอาหารฝรั่งเศสฟิวชันที่รังสรรค์โดยเชฟระดับมิชลินสตาร์ คัดสรรวัตถุดิบนำเข้าเกรดพรีเมียมเพื่อความประทับใจในทุกมื้ออาหาร
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="navigateTo('reservation')" class="bg-gold-500 hover:bg-gold-400 text-dark-900 font-bold px-8 py-3.5 rounded-full transition shadow-lg hover:shadow-gold-500/30">
+                            สำรองโต๊ะล่วงหน้า
+                        </button>
+                        <button onclick="navigateTo('menu')" class="border border-gold-500/50 text-gold-500 hover:bg-gold-500/10 font-semibold px-8 py-3.5 rounded-full transition">
+                            ชมรายการอาหาร
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Highlights -->
+            <div class="max-w-7xl mx-auto px-4 py-20">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-heading text-white font-bold mb-3">จุดเด่นของเรา</h2>
+                    <div class="w-16 h-0.5 bg-gold-500 mx-auto"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-dark-800 p-8 rounded-2xl border border-gold-500/10 hover:border-gold-500/40 transition text-center group">
+                        <div class="w-16 h-16 bg-gold-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-gold-500 text-2xl group-hover:bg-gold-500 group-hover:text-dark-900 transition duration-300">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">วัตถุดิบระดับพรีเมียม</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">คัดสรรวัตถุดิบชั้นเลิศทั้งเนื้อวัววากิว A5 และอาหารทะเลสดใหม่ส่งตรงจากฝรั่งเศสทุกสัปดาห์</p>
+                    </div>
+                    <div class="bg-dark-800 p-8 rounded-2xl border border-gold-500/10 hover:border-gold-500/40 transition text-center group">
+                        <div class="w-16 h-16 bg-gold-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-gold-500 text-2xl group-hover:bg-gold-500 group-hover:text-dark-900 transition duration-300">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">เชฟระดับรางวัล</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">รังสรรค์เมนูโดยทีมเชฟที่มีประสบการณ์จากห้องอาหารมิชลินระดับโลก</p>
+                    </div>
+                    <div class="bg-dark-800 p-8 rounded-2xl border border-gold-500/10 hover:border-gold-500/40 transition text-center group">
+                        <div class="w-16 h-16 bg-gold-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-gold-500 text-2xl group-hover:bg-gold-500 group-hover:text-dark-900 transition duration-300">
+                            <i class="fa-solid fa-wine-glass"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">ไวน์คอลเลกชันพิเศษ</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">บริการไวน์ชั้นนำกว่า 300 รายการที่จับคู่รสชาติกับอาหารได้อย่างลงตัวโดย Sommelier</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PAGE: ABOUT US -->
+        <section id="page-about" class="page-section">
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <div class="text-center mb-16">
+                    <span class="text-gold-500 text-xs tracking-widest uppercase font-semibold">Our Story</span>
+                    <h1 class="text-4xl font-heading text-white font-bold mt-1">เรื่องราวของ Le Prestige</h1>
+                    <div class="w-16 h-0.5 bg-gold-500 mx-auto mt-4"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=800&q=80" alt="Restaurant Atmosphere" class="rounded-2xl shadow-2xl border border-gold-500/20 object-cover w-full h-[400px]">
+                        <div class="absolute -bottom-6 -right-6 bg-gold-500 text-dark-900 p-6 rounded-2xl font-bold hidden sm:block">
+                            <span class="text-3xl block">12+</span>
+                            <span class="text-xs uppercase tracking-wider">ปีแห่งความเชี่ยวชาญ</span>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <h2 class="text-2xl font-heading text-gold-500 font-bold">ศิลปะแห่งอาหารและประสบการณ์ที่ไม่มีวันลืม</h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            ก้าวเข้าสู่โลกของ Le Prestige ที่ซึ่งอาหารทุกจานคือผลงานศิลปะ ร้านอาหารของเราก่อตั้งขึ้นในปี 2012 โดยมุ่งมั่นที่จะมอบประสบการณ์ Fine Dining ที่ผสมผสานความคลาสสิกของฝรั่งเศสเข้ากับวัตถุดิบชั้นเลิศจากทั่วทุกมุมโลก
+                        </p>
+                        <p class="text-gray-400 leading-relaxed text-sm">
+                            เราใส่ใจในทุกรายละเอียด ตั้งแต่การคัดสรรวัตถุดิบออร์แกนิก เทคนิคการปรุงที่พิถีพิถัน ตลอดจนบรรยากาศการตกแต่งภายในที่เน้นความเรียบหรูเพื่อสร้างช่วงเวลาอันน่าจดจำสำหรับคุณและคนพิเศษ
+                        </p>
+                        <div class="pt-4 border-t border-dark-700 flex items-center space-x-4">
+                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=150&q=80" alt="Head Chef" class="w-14 h-14 rounded-full border-2 border-gold-500 object-cover">
+                            <div>
+                                <h4 class="text-white font-bold">Chef Jean-Luc Laurent</h4>
+                                <p class="text-gold-500 text-xs">Executive Head Chef</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PAGE: MENU -->
+        <section id="page-menu" class="page-section">
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <div class="text-center mb-12">
+                    <span class="text-gold-500 text-xs tracking-widest uppercase font-semibold">Culinary Experience</span>
+                    <h1 class="text-4xl font-heading text-white font-bold mt-1">เมนูอาหารแนะนำ</h1>
+                    <div class="w-16 h-0.5 bg-gold-500 mx-auto mt-4"></div>
+                </div>
+
+                <!-- Menu Category Tabs -->
+                <div class="flex justify-center flex-wrap gap-2 md:gap-4 mb-12">
+                    <button onclick="filterMenu('all')" class="menu-tab-btn active bg-gold-500 text-dark-900 font-medium px-6 py-2 rounded-full text-sm transition">ทั้งหมด</button>
+                    <button onclick="filterMenu('starter')" class="menu-tab-btn bg-dark-800 text-gray-300 hover:text-gold-500 font-medium px-6 py-2 rounded-full text-sm border border-gold-500/20 transition">อาหารทานเล่น</button>
+                    <button onclick="filterMenu('main')" class="menu-tab-btn bg-dark-800 text-gray-300 hover:text-gold-500 font-medium px-6 py-2 rounded-full text-sm border border-gold-500/20 transition">อาหารจานหลัก</button>
+                    <button onclick="filterMenu('dessert')" class="menu-tab-btn bg-dark-800 text-gray-300 hover:text-gold-500 font-medium px-6 py-2 rounded-full text-sm border border-gold-500/20 transition">ของหวาน</button>
+                </div>
+
+                <!-- Menu Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Item 1 -->
+                    <div class="menu-item main bg-dark-800 p-6 rounded-2xl border border-dark-700 flex flex-col sm:flex-row gap-6 hover:border-gold-500/30 transition">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80" alt="Wagyu Steak" class="w-full sm:w-32 h-32 object-cover rounded-xl">
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-bold text-white">Wagyu A5 Tenderloin Steak</h3>
+                                <span class="text-gold-500 font-bold font-heading">฿3,800</span>
+                            </div>
+                            <p class="text-gray-400 text-xs mb-3">เนื้อวัววากิว A5 ย่างเตาถ่าน เสิร์ฟพร้อมซอสไวน์แดงและมันบดทรักเฟิล</p>
+                            <span class="text-[10px] bg-gold-500/10 text-gold-500 px-2.5 py-1 rounded-full border border-gold-500/20">Chef Recommended</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="menu-item starter bg-dark-800 p-6 rounded-2xl border border-dark-700 flex flex-col sm:flex-row gap-6 hover:border-gold-500/30 transition">
+                        <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=400&q=80" alt="Foie Gras" class="w-full sm:w-32 h-32 object-cover rounded-xl">
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-bold text-white">Pan-Seared Foie Gras</h3>
+                                <span class="text-gold-500 font-bold font-heading">฿1,450</span>
+                            </div>
+                            <p class="text-gray-400 text-xs mb-3">ตับห่านทอดกระทะ เสิร์ฟคู่กับซอสมะเดื่อเชื่อมและขนมปังบริยอช</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="menu-item main bg-dark-800 p-6 rounded-2xl border border-dark-700 flex flex-col sm:flex-row gap-6 hover:border-gold-500/30 transition">
+                        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=400&q=80" alt="Lobster" class="w-full sm:w-32 h-32 object-cover rounded-xl">
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-bold text-white">Grilled Maine Lobster</h3>
+                                <span class="text-gold-500 font-bold font-heading">฿2,900</span>
+                            </div>
+                            <p class="text-gray-400 text-xs mb-3">กุ้งมังกรเมนย่างเนยกระเทียม เสิร์ฟพร้อมผักย่างฤดูกาล</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="menu-item dessert bg-dark-800 p-6 rounded-2xl border border-dark-700 flex flex-col sm:flex-row gap-6 hover:border-gold-500/30 transition">
+                        <img src="https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&w=400&q=80" alt="Souffle" class="w-full sm:w-32 h-32 object-cover rounded-xl">
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-bold text-white">Grand Marnier Soufflé</h3>
+                                <span class="text-gold-500 font-bold font-heading">฿650</span>
+                            </div>
+                            <p class="text-gray-400 text-xs mb-3">ซูเฟลรอบูเลต์ส้มฝรั่งเศส เสิร์ฟพร้อมไอศกรีมวานิลลาแท้จากมาดากัสการ์</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. PAGE: RESERVATION -->
+        <section id="page-reservation" class="page-section">
+            <div class="max-w-4xl mx-auto px-4 py-16">
+                <div class="text-center mb-12">
+                    <span class="text-gold-500 text-xs tracking-widest uppercase font-semibold">Book a Table</span>
+                    <h1 class="text-4xl font-heading text-white font-bold mt-1">สำรองโต๊ะอาหาร</h1>
+                    <div class="w-16 h-0.5 bg-gold-500 mx-auto mt-4"></div>
+                </div>
+
+                <div class="bg-dark-800 p-8 sm:p-10 rounded-2xl border border-gold-500/20 shadow-xl">
+                    <form id="booking-form" onsubmit="handleReservation(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">ชื่อ-นามสกุล *</label>
+                                <input type="text" required placeholder="คุณ สมชาย ใจดี" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">เบอร์โทรศัพท์ *</label>
+                                <input type="tel" required placeholder="081-234-5678" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">วันที่ *</label>
+                                <input type="date" required class="w-full bg-dark-900 border border-dark-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">เวลา *</label>
+                                <select required class="w-full bg-dark-900 border border-dark-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold-500">
+                                    <option value="">เลือกเวลา</option>
+                                    <option value="17:30">17:30 น.</option>
+                                    <option value="18:30">18:30 น.</option>
+                                    <option value="19:30">19:30 น.</option>
+                                    <option value="20:30">20:30 น.</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">จำนวนผู้ใช้บริการ *</label>
+                                <select required class="w-full bg-dark-900 border border-dark-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold-500">
+                                    <option value="1">1 ท่าน</option>
+                                    <option value="2" selected>2 ท่าน</option>
+                                    <option value="4">4 ท่าน</option>
+                                    <option value="6">6 ท่านขึ้นไป</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">โซนที่นั่ง</label>
+                                <select class="w-full bg-dark-900 border border-dark-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold-500">
+                                    <option value="main">โซนห้องโถงหลัก</option>
+                                    <option value="vip">ห้องวีไอพีส่วนตัว (VIP)</option>
+                                    <option value="terrace">โซนระเบียงชมวิว</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">ข้อความเพิ่มเติม / แพ้อาหาร</label>
+                            <textarea rows="3" placeholder="ระบุสิ่งที่ต้องการเพิ่มเติม เช่น แพ้อาหาร หรือเนื่องในโอกาสพิเศษ" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gold-500 hover:bg-gold-400 text-dark-900 font-bold py-4 rounded-lg transition duration-200">
+                            ยืนยันการสำรองโต๊ะ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. PAGE: CONTACT US -->
+        <section id="page-contact" class="page-section">
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <div class="text-center mb-16">
+                    <span class="text-gold-500 text-xs tracking-widest uppercase font-semibold">Get in Touch</span>
+                    <h1 class="text-4xl font-heading text-white font-bold mt-1">ติดต่อเรา</h1>
+                    <div class="w-16 h-0.5 bg-gold-500 mx-auto mt-4"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                    <div class="bg-dark-800 p-8 rounded-2xl border border-dark-700 text-center">
+                        <i class="fa-solid fa-location-dot text-3xl text-gold-500 mb-4"></i>
+                        <h3 class="text-lg font-bold text-white mb-2">ที่อยู่ร้าน</h3>
+                        <p class="text-gray-400 text-sm">123 ถนนสุขุมวิท แขวงคลองเตยเหนือ เขตวัฒนา กรุงเทพมหานคร 10110</p>
+                    </div>
+                    <div class="bg-dark-800 p-8 rounded-2xl border border-dark-700 text-center">
+                        <i class="fa-solid fa-phone text-3xl text-gold-500 mb-4"></i>
+                        <h3 class="text-lg font-bold text-white mb-2">เบอร์โทรศัพท์</h3>
+                        <p class="text-gray-400 text-sm">+66 2 123 4567<br>+66 81 987 6543</p>
+                    </div>
+                    <div class="bg-dark-800 p-8 rounded-2xl border border-dark-700 text-center">
+                        <i class="fa-solid fa-clock text-3xl text-gold-500 mb-4"></i>
+                        <h3 class="text-lg font-bold text-white mb-2">เวลาทำการ</h3>
+                        <p class="text-gray-400 text-sm">อังคาร - อาทิตย์: 17:00 - 23:00 น.<br><span class="text-gold-500">(ปิดบริการทุกวันจันทร์)</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Confirmation -->
+    <div id="booking-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-dark-800 border border-gold-500/30 rounded-2xl p-8 max-w-md w-full text-center relative">
+            <div class="w-16 h-16 bg-gold-500/10 text-gold-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">สำรองโต๊ะสำเร็จ!</h3>
+            <p class="text-gray-300 text-sm mb-6">เราได้รับข้อมูลการจองเรียบร้อยแล้ว เจ้าหน้าที่จะทำการยืนยันการจองผ่านเบอร์โทรศัพท์ของท่าน</p>
+            <button onclick="closeModal()" class="w-full bg-gold-500 hover:bg-gold-400 text-dark-900 font-bold py-3 rounded-lg">ตกลง</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark-800 border-t border-dark-700 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-500 text-sm">© 2026 LE PRESTIGE Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Navigation Logic -->
+    <script>
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            const selectedPage = document.getElementById(`page-${pageId}`);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function filterMenu(category) {
+            const items = document.querySelectorAll('.menu-item');
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function handleReservation(e) {
+            e.preventDefault();
+            document.getElementById('booking-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+            document.getElementById('booking-form').reset();
+            navigateTo('home');
+        }
+    </script>
+</body>
+</html>
